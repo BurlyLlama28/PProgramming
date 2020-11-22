@@ -1,0 +1,464 @@
+openapi: 3.0.3
+info:
+  title: Make schedule
+  description: Service that allows to schedule sessions in cinemas.
+  version: 1.0.0
+paths:
+  /user:
+    post:
+      tags:
+        - User
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/p_user'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '400':
+          description: Invalid body supplied
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  property_name:
+                    type: string
+                nullable: false
+        '409':
+          description: User with such email already exists
+      security:
+      - cinema_auth:
+        - read:users
+  '/user/{userId}':
+    get:
+      tags:
+        - User
+      description: Get user data
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '400':
+          description: Invalid Id supplied
+        '404':
+          description: User not found
+      security:
+      - cinema_auth:
+        - read:users
+    put:
+      tags:
+        - User
+      description: Update user data
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/p_user'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '400':
+          description: Invalid body supplied
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  property_name:
+                    type: string
+                nullable: false
+        '401':
+          description: User is not authorized
+        '404':
+          description: User not found
+      security:
+      - cinema_auth:
+        - read:users
+        - write:users
+  /schedule:
+    get:
+      tags:
+        - Schedule
+      description: Gets all schedules
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/p_schedule'
+        '404':
+          description: No schedules found
+    post:
+      tags:
+        - Schedule
+      description: Create schedule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/p_schedule'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schedule'
+        '400':
+          description: Invalid body supplied
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  property_name:
+                    type: string
+                nullable: false
+        '401':
+          description: User is not authorized
+        '409':
+          description: The schedule on this date already exists
+      security:
+      - cinema_auth:
+        - write:schedules
+  '/schedule/{scheduleId}':
+    get:
+      tags:
+        - Schedule
+      description: Gets schedule by id
+      parameters:
+        - name: scheduleId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schedule'
+        '400':
+          description: Invalid Id supplied
+        '404':
+          description: Schedule not found
+    put:
+      tags:
+        - Schedule
+      description: Updates schedule
+      parameters:
+        - name: scheduleId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/p_schedule'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schedule'
+        '400':
+          description: Invalid body supplied
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  property_name:
+                    type: string
+                nullable: false
+        '401':
+          description: User is not authorized
+        '404':
+          description: Schedule not found
+      security:
+      - cinema_auth:
+        - write:schedules
+  /film:
+    post:
+      tags:
+        - Film
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/p_film'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/film'
+        '400':
+          description: Invalid body supplied
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  property_name:
+                    type: string
+                nullable: false
+        '401':
+          description: User is not authorized
+        '409':
+          description: The film with such name already exists
+      security:
+      - cinema_auth:
+        - write:schedules
+    get:
+      tags:
+        - Film
+      description: Gets all films
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/film'
+                nullable: false
+        '404':
+          description: No films found
+  '/film{filmId}':
+    get:
+      tags:
+        - Film
+      description: ''
+      parameters:
+        - name: filmId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/film'
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: Film not found
+    put:
+      tags:
+        - Film
+      description: ''
+      parameters:
+        - name: filmId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/p_film'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/film'
+        '400':
+          description: Invalid body supplied
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  property_name:
+                    type: string
+                nullable: false
+        '401':
+          description: User is not authorized
+        '404':
+          description: Film not found
+      security:
+      - cinema_auth:
+        - write:schedules
+        - read:schedules
+    delete:
+      tags:
+        - Film
+      description: ''
+      parameters:
+        - name: filmId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Film deleted
+        '401':
+          description: User is not authorized
+        '404':
+          description: Film not found
+      security:
+      - cinema_auth:
+        - write:schedules
+        - read:schedules
+components:
+  schemas:
+    user:
+      type: object
+      properties:
+        id:
+          type: string
+        full_name:
+          type: string
+        birthday:
+          type: string
+          format: date
+        email:
+          type: string
+          example: ex@mp.le
+        phone_number:
+          type: string
+          example: '+380999999999'
+      nullable: false
+    p_user:
+      type: object
+      properties:
+        full_name:
+          type: string
+        birthday:
+          type: string
+          format: date
+        email:
+          type: string
+          example: ex@mp.le
+        phone_number:
+          type: string
+          example: '+380999999999'
+      nullable: false
+    schedule:
+      type: object
+      properties:
+        id:
+          type: string
+        date:
+          type: string
+          format: date
+        films:
+          type: array
+          items:
+            type: string
+          nullable: false
+        occupancy_of_hall:
+          type: integer
+          format: int32
+        busy_time:
+          type: array
+          items:
+            type: object
+            properties:
+              start_time:
+                type: string
+                format: date-time
+              end_time:
+                type: string
+                format: date-time
+            nullable: false
+          nullable: false
+      nullable: false
+    p_schedule:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        films:
+          type: array
+          items:
+            type: string
+          nullable: false
+        occupancy_of_hall:
+          type: integer
+          format: int32
+        busy_time:
+          type: array
+          items:
+            type: object
+            properties:
+              start_time:
+                type: string
+                format: date-time
+              end_time:
+                type: string
+                format: date-time
+            nullable: false
+          nullable: false
+      nullable: false
+    film:
+      type: object
+      properties:
+        id:
+          type: string
+        duration:
+          type: string
+        name:
+          type: string
+      nullable: false
+    p_film:
+      type: object
+      properties:
+        duration:
+          type: string
+        name:
+          type: string
+      nullable: false
+  securitySchemes:
+    cinema_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://petstore.swagger.io/oauth/dialog
+          scopes:
+            write:schedules: modify schedules in your cinema
+            write:users: modify user info
+            read:users: read user info
