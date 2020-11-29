@@ -2,17 +2,24 @@ from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
+from sqlalchemy_utils import database_exists, create_database
 
 from alembic import context
 
 import os
+
+URL = os.getenv("URL")
+
+if not database_exists(URL):
+    create_database(URL)
+
 import sys
 
 current_path = os.path.dirname(os.path.abspath(__file__))
 ROOT_PATH = os.path.join(current_path, '..')
 sys.path.append(ROOT_PATH + "/repository")
 
-from create_db import Base, URL, DB
+from models import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -34,7 +41,7 @@ target_metadata = Base.metadata
 # ... etc.
 
 alembic_config = config.get_section(config.config_ini_section)
-alembic_config['sqlalchemy.url'] = URL+DB
+alembic_config['sqlalchemy.url'] = URL
 
 
 def run_migrations_offline():

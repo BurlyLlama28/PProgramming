@@ -5,19 +5,11 @@ from sqlalchemy_utils import database_exists, create_database
 from models import Base
 import os
 
-USER = os.getenv('USER')
-PASSWORD = os.getenv('PASSWORD')
-HOST = os.getenv('HOST')
-PORT = os.getenv('PORT')
+URL = os.getenv("URL")
 
-DB = "cinema_db"
-URL = "mysql+pymysql://{0}:{1}@{2}:{3}/".format(USER, PASSWORD, HOST, PORT)
+if not database_exists(URL):
+    create_database(URL)
 
-print(URL)
-
-if not database_exists(URL+DB):
-    create_database(URL+DB)
-
-engine = create_engine(URL+DB, echo=True)
+engine = create_engine(URL, echo=True)
 
 Base.metadata.create_all(engine)
