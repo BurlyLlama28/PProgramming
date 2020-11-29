@@ -1,7 +1,5 @@
 from repository.models import *
-from sqlalchemy import insert, MetaData
 from app import db
-import os
 from datetime import date, time
 
 user = User(id="69ec8406-1e24-4f59-ad83-ac206a49cb0d", full_name="Vitalii Yarmus", email="mr.yarmus@gmail.com", phone_number="+380983057271")
