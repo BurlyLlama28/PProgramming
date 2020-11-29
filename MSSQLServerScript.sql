@@ -2,7 +2,7 @@
 
 CREATE TABLE `cinema_db`.users (
   `id` NVARCHAR(36) PRIMARY KEY UNIQUE NOT NULL,
-  `full_name` LONGTEXT NOT NULL,
+  `full_name` NVARCHAR(1000) NOT NULL,
   `birthday` DATE,
   `email` NVARCHAR(345) NOT NULL,
   `phone_number` NVARCHAR(15)
@@ -17,7 +17,7 @@ CREATE TABLE `cinema_db`.schedules (
 CREATE TABLE `cinema_db`.films (
   `id` NVARCHAR(36) PRIMARY KEY UNIQUE NOT NULL,
   `duration` DECIMAL(18,0) NOT NULL,
-  `name` LONGTEXT NOT NULL
+  `name` NVARCHAR(1000) NOT NULL
 );
 
 CREATE TABLE `cinema_db`.filmsSchedules (

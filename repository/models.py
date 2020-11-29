@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, Date, Float, ForeignKey, Time
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
@@ -75,11 +76,13 @@ class FilmsSchedule(Base):
         ForeignKey(Film.id),
         nullable=False
     )
+    film = relationship(Film)
     schedule_id = Column(
         String(36),
         ForeignKey(Schedule.id),
         nullable=False
     )
+    schedule = relationship(Schedule)
 
 class BusyTime(Base):
     __tablename__ = "busy_times"
@@ -94,11 +97,13 @@ class BusyTime(Base):
         ForeignKey(Film.id),
         nullable=False
     )
+    film = relationship(Film)
     schedule_id = Column(
         String(36),
         ForeignKey(Schedule.id),
         nullable=False
     )
+    schedule = relationship(Schedule)
     start_time = Column(
         Time,
         nullable=False,

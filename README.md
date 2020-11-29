@@ -22,3 +22,5 @@ PASSWORD="root"
 HOST="localhost"
 PORT="3306"
 `
+3. Apply migration:  alembic upgrade head
+4. Add migration: alembic revision --autogenerate -m "{Name}"
