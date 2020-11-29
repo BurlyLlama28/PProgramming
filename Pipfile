@@ -11,6 +11,7 @@ sqlalchemy = "*"
 pymysql = "*"
 sqlalchemy-utils = "*"
 alembic = "*"
+flask-sqlalchemy = "*"
 
 [requires]
 python_version = "3.8"
