@@ -442,7 +442,8 @@ components:
         id:
           type: string
         duration:
-          type: string
+          type: number
+	  format: double
         name:
           type: string
       nullable: false
@@ -452,7 +453,8 @@ components:
         id:
           type: string
         duration:
-          type: string
+          type: number
+	  format: double
         name:
           type: string
       nullable: false
