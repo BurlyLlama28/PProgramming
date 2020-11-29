@@ -409,11 +409,8 @@ components:
     p_schedule:
       type: object
       properties:
-<<<<<<< HEAD
-=======
         id:
           type: string
->>>>>>> 0893431252e467107892de3a1f17b4818e4abae3
         date:
           type: string
           format: date
@@ -452,11 +449,8 @@ components:
     p_film:
       type: object
       properties:
-<<<<<<< HEAD
-=======
         id:
           type: string
->>>>>>> 0893431252e467107892de3a1f17b4818e4abae3
         duration:
           type: string
         name:

@@ -11,3 +11,14 @@ Aplied programming
 8. python app.py
 ### P.S. Cntrl+Z will close project and type exit to close virtual environment
 Good luck!)
+
+### Add environment variables for db
+
+1. Create .env file in root folder
+2. Add variables to this file
+`
+USER="root"
+PASSWORD="root"
+HOST="localhost"
+PORT="3306"
+`
