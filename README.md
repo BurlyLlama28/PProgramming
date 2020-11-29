@@ -24,3 +24,7 @@ PORT="3306"
 `
 3. Apply migration:  alembic upgrade head
 4. Add migration: alembic revision --autogenerate -m "{Name}"
+
+### Db schema 
+
+![alt text](photo_2020-11-29_19-16-36.jpg "Title")
