@@ -16,12 +16,7 @@ Good luck!)
 
 1. Create .env file in root folder
 2. Add variables to this file
-`
-USER="root"
-PASSWORD="root"
-HOST="localhost"
-PORT="3306"
-`
+`URL=mysql+pymysql://root:root@localhost:3306/cinema_db`
 3. Apply migration:  alembic upgrade head
 4. Add migration: alembic revision --autogenerate -m "{Name}"
 
