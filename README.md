@@ -11,3 +11,15 @@ Aplied programming
 8. python app.py
 ### P.S. Cntrl+Z will close project and type exit to close virtual environment
 Good luck!)
+
+### Add environment variables for db
+
+1. Create .env file in root folder
+2. Add variables to this file
+`URL=mysql+pymysql://root:root@localhost:3306/cinema_db`
+3. Apply migration:  alembic upgrade head
+4. Add migration: alembic revision --autogenerate -m "{Name}"
+
+### Db schema 
+
+![alt text](photo_2020-11-29_19-16-36.jpg "Title")

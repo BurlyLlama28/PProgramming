@@ -409,6 +409,8 @@ components:
     p_schedule:
       type: object
       properties:
+        id:
+          type: string
         date:
           type: string
           format: date
@@ -448,6 +450,8 @@ components:
     p_film:
       type: object
       properties:
+        id:
+          type: string
         duration:
           type: number
 	  format: double
