@@ -12,7 +12,6 @@ class User(Base):
     birthday = Column(Date, nullable=True)
     email = Column(String(345), nullable=False)
     phone_number = Column(String(15), nullable=False)
-    role = Column(String(25), nullable=False, default="user")
     password = Column(String(5000), nullable=False)
 
 class Film(Base):
@@ -22,30 +21,14 @@ class Film(Base):
     duration = Column(Float(asdecimal=True), nullable=False)
     name = Column(String(1000), nullable=False)
 
-class Hall(Base):
-    __tablename__ = "halls"
-
-    id = Column(String(36), primary_key=True, nullable=False)
-    occupancy_of_hall = Column(Integer, nullable=False)
-
 class Schedule(Base):
     __tablename__ = "schedules"
 
     id = Column(String(36), primary_key=True, nullable=False)
     date = Column(Date, nullable=False)
-    hall_id = Column(String(36), ForeignKey(Hall.id), nullable=False)
-    hall = relationship(Hall)
     user_creator_id = Column(String(36), ForeignKey(User.id), nullable=False)
     user_creator = relationship(User)
     films_occupation_times = relationship('FilmOccupationTime')
-
-class OccupiedSeat(Base):
-    __tablename__ = "occupied_seats"
-
-    id = Column(String(36), primary_key=True, nullable=False)
-    user_id = Column(String(36), ForeignKey(User.id), nullable=False)
-    user = relationship(User)
-    film_ocupation_time_id = Column(String(36), ForeignKey('film_occupations_times.id'), nullable=False)
 
 class FilmOccupationTime(Base):
     __tablename__ = "film_occupations_times"
@@ -57,4 +40,3 @@ class FilmOccupationTime(Base):
     schedule = relationship(Schedule)
     start_time = Column(Time, nullable=False,)
     end_time = Column(Time, nullable=False)
-    occupied_seats = relationship(OccupiedSeat)
