@@ -6,7 +6,7 @@ CREATE TABLE cinema_db.users (
   birthday DATE,
   email NVARCHAR(345) NOT NULL,
   phone_number NVARCHAR(15),
-  password NVARCHAR(MAX)
+  password NVARCHAR(5000)
 );
 
 CREATE TABLE cinema_db.films (
