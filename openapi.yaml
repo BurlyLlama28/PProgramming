@@ -387,16 +387,10 @@ components:
         films:
           type: array
           items:
-            type: string
-          nullable: false
-        occupancy_of_hall:
-          type: integer
-          format: int32
-        busy_time:
-          type: array
-          items:
             type: object
             properties:
+              film_id:
+                type: string
               start_time:
                 type: string
                 format: date-time
@@ -417,16 +411,10 @@ components:
         films:
           type: array
           items:
-            type: string
-          nullable: false
-        occupancy_of_hall:
-          type: integer
-          format: int32
-        busy_time:
-          type: array
-          items:
             type: object
             properties:
+              film_id:
+                type: string
               start_time:
                 type: string
                 format: date-time
@@ -443,7 +431,7 @@ components:
           type: string
         duration:
           type: number
-	  format: double
+          format: double
         name:
           type: string
       nullable: false
@@ -454,7 +442,7 @@ components:
           type: string
         duration:
           type: number
-	  format: double
+          format: double
         name:
           type: string
       nullable: false
