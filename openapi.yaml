@@ -375,6 +375,8 @@ components:
         phone_number:
           type: string
           example: '+380999999999'
+        password:
+          type: string
       nullable: false
     schedule:
       type: object
@@ -384,6 +386,8 @@ components:
         date:
           type: string
           format: date
+        user_creator_id:
+          type: string
         films:
           type: array
           items:
