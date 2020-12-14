@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, Date, Float, ForeignKey, Time
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
-from models import Base
+from repository.models import Base
 import os
 
 URL = os.getenv("URL")
