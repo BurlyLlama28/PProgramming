@@ -10,18 +10,20 @@ def get_current_user():
 
 def get_serializable_schedule(schedule):
     # print(schedule.id)
-    film_occupation = FilmOccupationTime.query.filter_by(schedule_id=schedule.id).first()
+    film_occupation = FilmOccupationTime.query.filter_by(schedule_id=schedule.id).all()
     # print(jsonify(film_occupation))
+    films_list = []
+    for i in range(len(film_occupation)):
+        films_list.append({
+
+                    "film_id": film_occupation[i].film_id,
+                    "start_time": str(film_occupation[i].start_time),
+                    "end_time": str(film_occupation[i].end_time)
+                })
     result = {
         'id': schedule.id,
         'date': str(schedule.date),
-        'films': [
-            {
-                "film_id": film_occupation.film_id,
-                "start_time": str(film_occupation.start_time),
-                "end_time": str(film_occupation.end_time)
-            }
-        ]
+        'films': films_list
     }
 
     return result
@@ -29,16 +31,18 @@ def get_serializable_schedule(schedule):
 
 def get_serializable_for_film(schedule):
     # print(schedule.id)
-    film_occupation = FilmOccupationTime.query.filter_by(schedule_id=schedule.id).first()
+    film_occupation = FilmOccupationTime.query.filter_by(schedule_id=schedule.id).all()
     # print(jsonify(film_occupation))
+    films_list = []
+    for i in range(len(film_occupation)):
+        films_list.append({
+
+                    "film_id": film_occupation[i].film_id,
+                    "start_time": str(film_occupation[i].start_time),
+                    "end_time": str(film_occupation[i].end_time)
+                })
     result = {
-        'films': [
-            {
-                "film_id": film_occupation.film_id,
-                "start_time": str(film_occupation.start_time),
-                "end_time": str(film_occupation.end_time)
-            }
-        ]
+        'films': films_list
     }
 
     return result
@@ -59,8 +63,9 @@ def create_schedule():
         return jsonify({"msg": "Invalid body supplied"}), 400
     db.session.add(Schedule(date=date, user_creator_id=user_creator_id))
     db.session.commit()
-    db.session.add(FilmOccupationTime(film_id=films[0]["film_id"], start_time=films[0]["start_time"],
-                                      end_time=films[0]["end_time"],
+    for i in range(len(films)):
+        db.session.add(FilmOccupationTime(film_id=films[i]["film_id"], start_time=films[i]["start_time"],
+                                      end_time=films[i]["end_time"],
                                       schedule_id=Schedule.query.filter_by(date=date).first().id))
     db.session.commit()
     return jsonify({"Success": "Schedule has been added"}), 200
@@ -99,13 +104,15 @@ def put_schedule_data(scheduleId):
     if schedule is None:
         return jsonify({"Error": "Schedule not found"}), 404
     user_creator_id = get_current_user().id
-    occupation_check = FilmOccupationTime.query.filter_by(schedule_id=schedule.id).first()
+    occupation_check = FilmOccupationTime.query.filter_by(schedule_id=schedule.id).all()
+    print(len(occupation_check))
     date = request.json.get('date', schedule.date)
     films = request.json.get('films', get_serializable_for_film(schedule))
     if date == schedule.date or films == get_serializable_for_film(schedule):
         return jsonify(status='Invalid body supplied'), 400
     elif date or films:
         Schedule.query.filter_by(id=scheduleId).update(dict(date=date))
-        FilmOccupationTime.query.filter_by(id=occupation_check.id).update(dict(film_id=films[0]["film_id"], start_time=films[0]["start_time"], end_time=films[0]["end_time"]))
+        for i in range(len(occupation_check)):
+            FilmOccupationTime.query.filter_by(id=occupation_check[i].id).update(dict(film_id=films[i]["film_id"], start_time=films[i]["start_time"], end_time=films[i]["end_time"]))
         db.session.commit()
         return jsonify(status='updated schedule'), 202
