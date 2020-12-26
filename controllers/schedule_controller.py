@@ -103,13 +103,15 @@ def put_schedule_data(scheduleId):
     schedule = Schedule.query.filter_by(id=scheduleId).first()
     if schedule is None:
         return jsonify({"Error": "Schedule not found"}), 404
-    user_creator_id = get_current_user().id
     occupation_check = FilmOccupationTime.query.filter_by(schedule_id=schedule.id).all()
     print(len(occupation_check))
     date = request.json.get('date', schedule.date)
     films = request.json.get('films', get_serializable_for_film(schedule))
+    user = User.query.filter_by(id=schedule.user_creator_id).first()
     if date == schedule.date or films == get_serializable_for_film(schedule):
         return jsonify(status='Invalid body supplied'), 400
+    if user.email != get_jwt_identity():
+        return jsonify({"Error": "User is not authorized"}), 403
     elif date or films:
         Schedule.query.filter_by(id=scheduleId).update(dict(date=date))
         for i in range(len(occupation_check)):

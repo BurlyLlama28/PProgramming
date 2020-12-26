@@ -10,7 +10,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = '4F4A8B8690219C1841B865EB87E8EC40281F7784BA16AEF0408DC712A6F3B4D7'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://{user}:{password}@{server}/{database}'.format(
     user='root',
-    password='olik1003',
+    password='root',
     server='localhost',
     database='cinema_db'
 )
