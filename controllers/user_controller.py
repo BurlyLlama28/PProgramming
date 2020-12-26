@@ -41,7 +41,7 @@ def create_user():
     email_check = User.query.filter_by(email=email).first()
     if email_check is not None:
         return jsonify({"msg": "User with such email already exists"}), 409
-    db.session.add(User(full_name=full_name, birthday=datetime.strptime(birthday, '%Y-%m-%d').date(), email=email, phone_number=phone_number, password=generate_password_hash(password)))
+    db.session.add(User(full_name=full_name, birthday=datetime.strptime(birthday, '%Y-%m-%d').date(), email=email, phone_number=phone_number, password=password))
     db.session.commit()
     return jsonify({"Success": "User has been created"}), 201
 
@@ -95,6 +95,6 @@ def put_user_data(userId):
             hashed = generate_password_hash(password)
         else:
             hashed = password
-        User.query.filter_by(id=userId).update(dict(full_name=full_name, birthday=birthday, email=email, phone_number=phone_number, password=hashed))
+        User.query.filter_by(id=userId).update(dict(full_name=full_name, birthday=datetime.strptime(birthday, '%Y-%m-%d').date(), email=email, phone_number=phone_number, password=hashed))
         db.session.commit()
         return jsonify(status='updated user'), 202

@@ -2,6 +2,7 @@ from repository.models import *
 from flask_jwt_extended import create_access_token
 from werkzeug.security import check_password_hash
 from config import *
+from datetime import *
 
 
 def get_current_user():
@@ -9,9 +10,7 @@ def get_current_user():
 
 
 def get_serializable_schedule(schedule):
-    # print(schedule.id)
     film_occupation = FilmOccupationTime.query.filter_by(schedule_id=schedule.id).all()
-    # print(jsonify(film_occupation))
     films_list = []
     for i in range(len(film_occupation)):
         films_list.append({
@@ -30,9 +29,7 @@ def get_serializable_schedule(schedule):
 
 
 def get_serializable_for_film(schedule):
-    # print(schedule.id)
     film_occupation = FilmOccupationTime.query.filter_by(schedule_id=schedule.id).all()
-    # print(jsonify(film_occupation))
     films_list = []
     for i in range(len(film_occupation)):
         films_list.append({
@@ -61,14 +58,14 @@ def create_schedule():
         return jsonify({"msg": "Schedule with such date already exists"}), 409
     if not date:
         return jsonify({"msg": "Invalid body supplied"}), 400
-    db.session.add(Schedule(date=date, user_creator_id=user_creator_id))
+    db.session.add(Schedule(date=datetime.strptime(date, '%Y-%m-%d').date(), user_creator_id=user_creator_id))
     db.session.commit()
     for i in range(len(films)):
-        db.session.add(FilmOccupationTime(film_id=films[i]["film_id"], start_time=films[i]["start_time"],
-                                      end_time=films[i]["end_time"],
+        db.session.add(FilmOccupationTime(film_id=films[i]["film_id"], start_time=datetime.strptime(films[i]["start_time"], '%H:%M:%S').time(),
+                                      end_time=datetime.strptime(films[i]["end_time"], '%H:%M:%S').time(),
                                       schedule_id=Schedule.query.filter_by(date=date).first().id))
     db.session.commit()
-    return jsonify({"Success": "Schedule has been added"}), 200
+    return jsonify({"Success": "Schedule has been added"}), 201
 
 
 @app.route('/schedule', methods=['GET'])
@@ -113,8 +110,10 @@ def put_schedule_data(scheduleId):
     if user.email != get_jwt_identity():
         return jsonify({"Error": "User is not authorized"}), 403
     elif date or films:
-        Schedule.query.filter_by(id=scheduleId).update(dict(date=date))
+        Schedule.query.filter_by(id=scheduleId).update(dict(date=datetime.strptime(date, '%Y-%m-%d').date()))
         for i in range(len(occupation_check)):
-            FilmOccupationTime.query.filter_by(id=occupation_check[i].id).update(dict(film_id=films[i]["film_id"], start_time=films[i]["start_time"], end_time=films[i]["end_time"]))
+            FilmOccupationTime.query.filter_by(id=occupation_check[i].id).update(dict(film_id=films[i]["film_id"],
+                                            start_time=datetime.strptime(films[i]["start_time"], '%H:%M:%S').time(),
+                                            end_time=datetime.strptime(films[i]["end_time"], '%H:%M:%S').time()))
         db.session.commit()
         return jsonify(status='updated schedule'), 202
