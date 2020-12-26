@@ -19,7 +19,10 @@ Good luck!)
 `URL=mysql+pymysql://root:root@localhost:3306/cinema_db`
 3. Apply migration:  alembic upgrade head
 4. Add migration: alembic revision --autogenerate -m "{Name}"
+5. run tests: py.test -s conftest.py
+6. run test witk coverage: coverage run -m pytest
+7. check coverage: coverage report -m
 
 ### Db schema 
 
-![alt text](photo_2020-11-29_19-16-36.jpg "Title")
+![alt text](photo_2020-12-06_16-34-11.jpg "Title")

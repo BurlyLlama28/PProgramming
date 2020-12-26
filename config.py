@@ -15,3 +15,14 @@ jwt = JWTManager(app)
 db = SQLAlchemy(app)
 engine = db.engine
 Base = db.Model
+
+def create_test_app():
+    global db
+    global engine
+    global Base
+    global app
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://'
+    db = SQLAlchemy(app)
+    engine = db.engine
+    Base = db.Model

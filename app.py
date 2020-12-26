@@ -16,6 +16,11 @@ def hello_world():
 def start():
     return 'Hello World 16'
 
+def create_app():
+    create_test_app()
+    db.create_all()
+    return app
+
 
 if __name__ == '__main__':
     app.run()

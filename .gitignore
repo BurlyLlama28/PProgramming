@@ -3,3 +3,6 @@
 .env
 .__pycache__/
 .repository/__pycache__/
+.pytest_cache
+./.idea
+.__pycache__
