@@ -61,15 +61,12 @@ def get_film_data(filmId):
 @jwt_required
 def put_film_data(filmId):
     film = Film.query.filter_by(id=filmId).first()
-    user = User.query.filter_by(id=film.userId).first()
     if film is None:
         return jsonify({"Error": "Film not found"}), 404
     duration = request.json.get('duration', film.duration)
     name = request.json.get('name', film.name)
     if duration == film.duration and name == film.name:
         return jsonify(status='Invalid body supplied'), 400
-    if user.email != get_jwt_identity():
-        return jsonify({"Error": "User is not authorized"}), 401
     elif duration or name:
         Film.query.filter_by(id=filmId).update(dict(duration=duration, name=name))
         db.session.commit()
